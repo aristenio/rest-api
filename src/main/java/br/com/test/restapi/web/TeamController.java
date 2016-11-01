@@ -12,6 +12,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.test.restapi.domain.Member;
 import br.com.test.restapi.domain.Team;
+import br.com.test.restapi.exceptions.MemberIsNotInTeamException;
+import br.com.test.restapi.exceptions.MemberJustInTeamException;
+import br.com.test.restapi.exceptions.MemberNotFoundException;
+import br.com.test.restapi.exceptions.TeamNotFoundException;
 import br.com.test.restapi.service.TeamService;
 
 @RestController
@@ -47,11 +51,13 @@ public class TeamController extends AbstractController<TeamService, Team> {
 
 		try {
 			service.addTeamMember(team, member);
-		} catch (Exception e) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		} catch (TeamNotFoundException|MemberNotFoundException e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+		}catch (MemberJustInTeamException e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
 		}
 
-		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		return new ResponseEntity<>(HttpStatus.CREATED);
 	}
 
 	@RequestMapping(value = "/{idTeam}/{idMember}", method = RequestMethod.DELETE)
@@ -60,8 +66,8 @@ public class TeamController extends AbstractController<TeamService, Team> {
 
 		try {
 			service.removeTeamMember(idTeam, idMember);
-		} catch (Exception e) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		} catch (TeamNotFoundException|MemberNotFoundException|MemberIsNotInTeamException e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
 		}
 
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);

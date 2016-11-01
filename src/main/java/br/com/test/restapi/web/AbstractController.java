@@ -40,7 +40,7 @@ public class AbstractController<T extends AbstractService, B extends AbstractBea
 	public ResponseEntity<?> add(@RequestBody B bean) {
 		service.add(bean);
 
-		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		return new ResponseEntity<>(HttpStatus.CREATED);
 	}
 
 	@SuppressWarnings("unchecked")
