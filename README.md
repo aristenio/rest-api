@@ -1,4 +1,4 @@
-- Obrigatório instalação do MongoDB (https://docs.mongodb.com/manual/administration/install-community/)
+- Obrigatório instalação do MongoDB (http://docs.mongodb.org/manual/installation/)
 
 - The Hal Browser disponível em: http://localhost:9000/
 
