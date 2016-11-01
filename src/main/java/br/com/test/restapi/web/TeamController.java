@@ -54,7 +54,7 @@ public class TeamController extends AbstractController<TeamService, Team> {
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 
-	@RequestMapping(value = "/{idTeam}/{idMember}", method = RequestMethod.POST)
+	@RequestMapping(value = "/{idTeam}/{idMember}", method = RequestMethod.DELETE)
 	public ResponseEntity<?> delTeamMember(@PathVariable("idTeam") String idTeam,
 			@PathVariable("idMember") String idMember) {
 
