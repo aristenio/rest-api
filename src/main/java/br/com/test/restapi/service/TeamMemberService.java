@@ -20,8 +20,7 @@ public class TeamMemberService {
 		return repository.insert(new TeamMember(team.getId(), member.getId()));
 	}
 	
-	public void remove(String id) {
-		TeamMember teamMember = repository.findByMemberId(id);
+	public void remove(TeamMember teamMember) {
 		repository.delete(teamMember);
 	}
 

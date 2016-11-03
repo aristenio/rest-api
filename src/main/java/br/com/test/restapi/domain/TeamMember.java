@@ -3,8 +3,8 @@ package br.com.test.restapi.domain;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document
-public class TeamMember {
-
+public class TeamMember extends AbstractBean{
+	
 	private String teamId;
 
 	private String memberId;

@@ -71,10 +71,10 @@ public class TeamService extends AbstractService<TeamRepository, Team> {
 			throw new TeamNotFoundException();
 		} else if (null == localMember) {
 			throw new MemberNotFoundException();
-		} else if (null != teamMember) {
+		} else if (null == teamMember) {
 			throw new MemberIsNotInTeamException();
 		} else {
-			teamMemberService.remove(localMember.getId());
+			teamMemberService.remove(teamMember);
 		}
 
 	}

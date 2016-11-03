@@ -294,7 +294,7 @@ public class ApplicationTests {
 	}
 	
 	@Test
-	public void addRemoveMemberFromTeam() throws Exception {
+	public void removeMemberFromTeam() throws Exception {
 		Team team = new Team("team99");
 
 		RestTemplate restTemplate = restTemplate();
@@ -319,12 +319,12 @@ public class ApplicationTests {
 		ParameterizedTypeReference<List<Member>> typeRefMember = new ParameterizedTypeReference<List<Member>>() {
 		};
 		
-		ResponseEntity<List<Team>> entityFindTeam = this.testRestTemplate.exchange("http://localhost:" + this.port + "/teams/search/team",
+		ResponseEntity<List<Team>> entityFindTeam = this.testRestTemplate.exchange("http://localhost:" + this.port + "/teams/search/team99",
 				HttpMethod.GET, requestDefault, typeRefTeam);
 		
 		Team teamInserted = entityFindTeam.getBody().get(0);
 		
-		ResponseEntity<List<Member>> entityFindMember = this.testRestTemplate.exchange("http://localhost:" + this.port + "/members/search/member",
+		ResponseEntity<List<Member>> entityFindMember = this.testRestTemplate.exchange("http://localhost:" + this.port + "/members/search/member99",
 				HttpMethod.GET, requestDefault, typeRefMember);
 		
 		Member memberInserted = entityFindMember.getBody().get(0);
@@ -335,6 +335,11 @@ public class ApplicationTests {
 		final ResponseEntity<Team> entityTeamMember = restTemplate.postForEntity(urlTeam, requestTeamMember, Team.class);
 		
 		then(entityTeamMember.getStatusCode()).isEqualTo(HttpStatus.CREATED);
+		
+		ResponseEntity<Void> entityDelete = this.testRestTemplate.exchange(urlTeam+memberInserted.getId(),
+				HttpMethod.DELETE, requestDefault, Void.class);
+		
+		then(entityDelete.getStatusCode()).isEqualTo(HttpStatus.NO_CONTENT);
 	}
 	
 	@Test
